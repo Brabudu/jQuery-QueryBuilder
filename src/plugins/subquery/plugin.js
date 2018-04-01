@@ -99,7 +99,19 @@ QueryBuilder.extend({
         var opts = $.extendext(true, 'replace', {}, rule.filter.subquery);
         var $b = $('#' + rule.subquery_id);
         $b.attr('data-subquery', rule.subquery_id);
+       
+        var opts=$.extend({},this.settings) ; //clone root opts
+        
+        opts= $.extendext(true, 'replace', opts, rule.filter.subquery); 
+               
+        var $b = $('#' + rule.subquery_id);
+        $b.attr('data-subquery', rule.subquery_id);
+        
         $b.queryBuilder(opts);
+       
+		$b.on('afterUpdateGroupCondition.queryBuilder', function(g,c) {		
+			c.$el.trigger('change')
+			});	
     },
 
     /**
